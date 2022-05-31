@@ -52,7 +52,7 @@ https://sourceware.org/binutils/docs-2.18/as/Macro.html
 	Die Subroutine _LEA32A0 liegt in start00.S
 */
 
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 .macro LEA32A0 var
 	move.l #\var,-(%sp)
 	move.l #1f,-(%sp)
@@ -79,7 +79,7 @@ https://sourceware.org/binutils/docs-2.18/as/Macro.html
 /* Gibt Text an momentaner Cursor Position aus */
 .macro writeln  text             
         movem.l %a0-%a6/%d0-%d7,-(%a7)
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	LEA32A0 \text
 #else
         lea \text,%a0
@@ -198,7 +198,7 @@ https://sourceware.org/binutils/docs-2.18/as/Macro.html
                                  /* In: WERT */
         movem.l %a0-%a6/%d0-%d7,-(%a7)
         move.l \value,%d0
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	LEA32A0 buffer
 #else
         lea buffer(%pc),%a0

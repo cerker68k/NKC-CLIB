@@ -45,7 +45,15 @@ LD = m68k-elf-ld -M -T ram.ld --cref  -o
 
 
 # Assembler Flags:
-AFLAGS = -pipe -DNO_MM -DNO_FPU -m68020 -Wa,-a,-ad,--bitwise-or
+AFLAGS = -pipe -DNO_MM -DNO_FPU -Wa,-a,-ad,--bitwise-or
+
+# 68008 is 68000 for compiling purposes
+ifeq ($(CPU),68008)
+   AFLAGS += -m68000
+else
+   AFLAGS += -m$(CPU) 
+endif
+
 
 EF = m68k-elf-elf2flt -v -o
 

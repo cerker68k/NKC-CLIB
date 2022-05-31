@@ -4,15 +4,21 @@
 #include <types.h>
 #include <drivers.h>  // struct _deviceinfo
 
-#ifdef M68000
+#ifdef M68008
 #define		spibase	(*(volatile u8 *)  0xfffffff00) 
 #define		spictrl (*(volatile u8 *)  0xfffffff00) 
 #define		spidata (*(volatile u8 *)  0xfffffff01) 
 #endif
 
+#ifdef M68000
+#define		spibase	(*(volatile u8 *)  0xfffffff00) 
+#define		spictrl (*(volatile u8 *)  0xfffffff00) 
+#define		spidata (*(volatile u8 *)  0xfffffff02)   # das muss 2 sein beim NKC.. 1 beim 68008
+#endif
+
 #ifdef M68020 
 #define		spibase	(*(volatile u8 *)  0xffffffc00) 
-#define   spictrl (*(volatile u8 *)  0xffffffc00) 
+#define         spictrl (*(volatile u8 *)  0xffffffc00) 
 #define		spidata (*(volatile u8 *)  0xffffffc04) 
 #endif
 

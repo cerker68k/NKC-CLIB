@@ -38,7 +38,7 @@ ldiv:
 div:
 	lea.l	(4,%A7),%A0	/* get pointer to parameters */
 	
-#ifdef M68000	
+#if defined(M68000) || defined(M68008)	
 					/* 68000... */
 	move.l	(4,%a0),-(%A7)	/* arg 2 __denom */
 	move.l	(%a0),-(%A7)   	/* arg1 __numer */

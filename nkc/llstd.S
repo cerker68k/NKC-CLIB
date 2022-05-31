@@ -127,7 +127,7 @@ _ll_read_L0:
 _ll_read_L1:        
 
 	/*bsr.l keyci Problem mit 68000 (illegal instruction) => dem Compiler überlassen */
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	jsr keyci				/* -> llmisc.S */
 #else
 	bsr keyci

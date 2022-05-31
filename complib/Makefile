@@ -9,7 +9,7 @@ BASEDIR=$(shell  pwd)/..
 
 include $(BASEDIR)/Makefile.rules
 
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 CCFLAGS +=  -DL_muldi3
 #endif
 
@@ -63,7 +63,12 @@ AFLAGS += -pipe
 # ######### preprocessor variable ##############
 AFLAGS += -DM$(CPU) 
 # ######### assembler switch: assemble for $(CPU) ##############
-AFLAGS += -m$(CPU) 
+# 68008 is 68000 for compiling purposes
+ifeq ($(CPU),68008)
+   AFLAGS += -m68000
+else
+  AFLAGS += -m$(CPU) 
+endif
 # ### tell the compiler to use FPU commands or software floating point ###
 ifeq ($(CONFIG_FPU),1)
 AFLAGS += -m68881

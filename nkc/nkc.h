@@ -1,7 +1,11 @@
 #ifndef __NKC_H
 #define __NKC_H
 
-/* 2 (68000), 4 (68020) */
+/* 1 (68008), 2 (68000), 4 (68020) */
+#ifdef M68008
+#define cpu 1
+#endif
+
 #ifdef M68000
 #define cpu 2
 #endif

@@ -10,6 +10,10 @@ include $(BASEDIR)/Makefile.rules
 
 OBJECTS= argset.o envset.o
 
+ifeq ($(CPU),68008)
+OBJECTS += start00.o
+endif
+
 ifeq ($(CPU),68000)
 OBJECTS += start00.o
 endif

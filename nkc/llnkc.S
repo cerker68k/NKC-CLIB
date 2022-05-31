@@ -149,14 +149,14 @@ void gp_ser1_write_dec_dw(unsigned int val);
 
 gp_ser1_write_dec_dw: .global gp_ser1_write_dec_dw
 	move.l 4(%sp),%d0
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	LEA32A0 buffer
 #else
 	lea buffer(%pc),%a0
 #endif
         moveq #_PRINT8D,%d7
         trap #1
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	LEA32A0 buffer        
 #else
 	lea buffer(%pc),%a0
@@ -172,14 +172,14 @@ gp_ser1_write_dec_dw: .global gp_ser1_write_dec_dw
 */	  	  
 gp_ser1_write_hex8: .global gp_ser1_write_hex8
 	move.l 4(%sp),%d0
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	LEA32A0 buffer
 #else
 	lea buffer(%pc),%a0
 #endif
         moveq #_PRINT8X,%d7
         trap #1
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	LEA32A0 buffer        
 #else
 	lea buffer(%pc),%a0
@@ -293,14 +293,14 @@ gp_setxy: .global gp_setxy
 */	  
 gp_write_hex2: .global gp_write_hex2
 	move.b 7(%sp),%d0
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	LEA32A0 buffer
 #else
 	lea buffer(%pc),%a0
 #endif
         moveq #_PRINT2X,%d7
         trap #1
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	writeln buffer
 #else
         writeln buffer(%pc)
@@ -312,14 +312,14 @@ gp_write_hex2: .global gp_write_hex2
 */	  	  
 gp_write_hex8: .global gp_write_hex8
 	move.l 4(%sp),%d0
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	LEA32A0 buffer
 #else
 	lea buffer(%pc),%a0
 #endif
         moveq #_PRINT8X,%d7
         trap #1
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	writeln buffer
 #else
         writeln buffer(%pc)
@@ -331,14 +331,14 @@ gp_write_hex8: .global gp_write_hex8
 */	  
 gp_write_dec_dw: .global gp_write_dec_dw
 	move.l 4(%sp),%d0
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	LEA32A0 buffer
 #else
 	lea buffer(%pc),%a0
 #endif
         moveq #_PRINT8D,%d7
         trap #1
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	writeln buffer
 #else
         writeln buffer(%pc)
@@ -422,7 +422,7 @@ void gp_showsp()
 */
 gp_showsp: .global gp_showsp	
 	prthex8 %a7
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	writeln buffer
 #else
     writeln buffer(%pc)
@@ -574,7 +574,7 @@ jd_remove: .global jd_remove
 	movea.l 12(%sp),%a0  	/* *name */
 	moveq #__uppercas, %d7	/* Dateinamen immer in Großbuchstaben */
 	trap #6
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	lea buffer,%a1   	/* *fcb  <<-- !!*/
 #else
 	lea buffer(%pc),%a1   	/* *fcb  <<-- !!*/
@@ -582,7 +582,7 @@ jd_remove: .global jd_remove
 	movea.l 12(%sp),%a0  	/* *name */
 	moveq #__fillfcb,%d7
 	trap #6
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	lea buffer,%a1 	/* *fcb  <<-- !!*/
 #else
 	lea buffer(%pc),%a1 	/* *fcb  <<-- !!*/
@@ -603,7 +603,7 @@ jd_rename: .global jd_rename
 	movea.l 20(%sp),%a0  	/* *newname */
 	moveq #__uppercas, %d7	/* Dateinamen immer in Großbuchstaben */
 	trap #6
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	lea buffer,%a1   	/* *fcb  */
 #else
 	lea buffer(%pc),%a1   	/* *fcb  */
@@ -615,7 +615,7 @@ jd_rename: .global jd_rename
 	movea.l 16(%sp),%a0  	/* *oldname */
 	moveq #__uppercas, %d7	/* Dateinamen immer in Großbuchstaben */
 	trap #6
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	lea buffer,%a1     /* <<--- !! */
 #else
 	lea buffer(%pc),%a1     /* <<--- !! */

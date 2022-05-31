@@ -4,7 +4,7 @@
  * _llinit  setup standard files (stdio, stderr)
  *************************************************************************/
 _ll_init_std:
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	lea output_file,%a0	
 	lea _pstreams,%a1	
 #else
@@ -13,7 +13,7 @@ _ll_init_std:
 #endif
 	move.l %a0,(%a1)+
 	move.l %a0,(%a1)+
-#ifdef M68000
+#if defined(M68008) || defined(M68000)
 	lea error_file,%a0
 #else
 	lea error_file(%pc),%a0

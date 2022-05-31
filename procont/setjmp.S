@@ -5,7 +5,7 @@ _setjmp:
 	lea.l	(4,%A7),%A0
 	move.l 	(%a0),%a0
 	movem.l	%d1-%d7/%a1-%a7,(%a0)
-#ifdef M68000
+#if defined (M68008) || defined(M68000)
 	move	%sr,%d0
 	and.w	#0x00FF,%d0
 	move.w	%d0,(59,%a0)

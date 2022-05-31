@@ -199,7 +199,7 @@ _ll_ticks:
 }
 
 */
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
 	lea ticks,%a0
 #else
 	lea ticks(%pc),%a0
@@ -215,7 +215,7 @@ _ll_ticks:
 */
 
 timerinit:
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
 	lea kqstart, %a0		/* clear Key-Queue Vars */
 	clr (%a0)
 	lea kqend, %a0
@@ -245,7 +245,7 @@ timerinit:
         move.l %a0, 0x7c         	/* install new int vector */
 	move.l %a0, 0x74
         
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
 	lea ticks,%a0
 #else
 	lea ticks(%pc),%a0
@@ -268,13 +268,13 @@ timerclose:
 	lea TIMER1_CTRL.w,%a0        	/* adresse ctrl-reg in a0 */
 	move.b #0,(%a0)          	/* stop timer and interrupts */
 	ori #0x0700, %sr		/* Interrupts aus	*/
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
 	lea oldint7c,%a0
 #else
 	lea oldint7c(%pc),%a0
 #endif
 	move.l (%a0),0x7c       	/* restore old interrupt */
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
 	lea oldint74,%a0
 #else
 	lea oldint74(%pc),%a0
@@ -291,7 +291,7 @@ trap1F:
     lea TIMER1_CTRL.w,%a0
     move.b #0b10000001,(%a0)  /* clear ovl bit(6), continue running(0), enable INT(7) */	
 */        
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
     lea ticks,%a0
 #else
     lea ticks(%pc),%a0
@@ -301,7 +301,7 @@ trap1F:
 	/*----- Ctrl-C check -------*/
 checkkbd:
 	move.b NKC_KEY_DATA.w, %d0
-#ifdef M68000	
+#if defined(M68008) | defined(M68000)
 	bmi tr1Fend				/* kein neues Zeichen -> Ende */
 #else
 	bmi.s tr1Fend				/* kein neues Zeichen -> Ende */
@@ -313,7 +313,7 @@ checkkbd:
  	
     tst.b NKC_KEY_DIP.w			/* Reset Strobe-Flag */
         
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
     writeln ctrlctxt
 #else
 	writeln ctrlctxt(%pc)
@@ -329,7 +329,7 @@ checkkbd:
     bra tr1Fend /* so ist es "sauberer" */
         
 getkbd:
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
 	lea keyqueue, %a0
 	lea kqanz, %a1
 	lea kqend, %a2
@@ -392,7 +392,7 @@ char keyci(void);
 */
 keyci:	.global keyci
 	movem.l %d1/%d7/%a0-%a2, -(%sp)
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
 	lea keyqueue, %a0
 	lea kqanz, %a1
 	lea kqstart, %a2
@@ -430,7 +430,7 @@ char _keyci(void);
 */
 _keyci:	.global _keyci
 	movem.l %d1/%d7/%a0-%a2, -(%sp)
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
 	lea keyqueue, %a0
 	lea kqanz, %a1
 	lea kqstart, %a2
@@ -470,7 +470,7 @@ Ohne GP !
 char _keypressed(void);
 */
 _keypressed:	.global _keypressed	
-#ifdef M68000
+#if defined(M68008) | defined(M68000)
 	lea kqanz, %a1	
 #else
 	lea kqanz(%pc), %a1

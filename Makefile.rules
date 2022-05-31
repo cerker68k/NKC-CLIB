@@ -8,7 +8,7 @@ CLIB=CC
 
 
 ############## define the target cpu (68000, 68008, 68020) #######################
-CPU=68020
+CPU=68008
 
 ############## tell if we have an 68881 ############################
 # if we have an FPU, the internal mathlib will be used !
@@ -328,7 +328,7 @@ AFLAGS =
 # ######### ##############
 AFLAGS += -pipe 
 # ######### preprocessor variable(s) ##############
-AFLAGS += -DM$(CPU) 
+# removed CPU switch here, redundant?
 
 ifeq ($(CONFIG_FPU),1)
 AFLAGS += -DCONFIG_FPU
@@ -343,7 +343,12 @@ AFLAGS += -DCONFIG_FS_FAT
 endif
 
 # ######### assembler switch: assemble for $(CPU) ##############
-AFLAGS += -m$(CPU) 
+# 68008 is 68000 for compiling purposes
+ifeq ($(CPU),68008)
+  AFLAGS += -m68000
+else
+  AFLAGS += -m$(CPU) 
+endif
 # ### tell the compiler to use FPU commands or software floating point ###
 ifeq ($(CONFIG_FPU),1)
 AFLAGS += -m68881
