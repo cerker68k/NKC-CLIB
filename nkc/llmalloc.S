@@ -62,6 +62,6 @@ _ll_transfer:
 msg00:	.ascii " _ll_transfer" 	
 	.byte 0x0d,0x0a,0x00
 
-
+	.align 2	/* just to be sure */
 buffer:	ds.b 255		
 

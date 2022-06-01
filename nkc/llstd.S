@@ -164,9 +164,9 @@ _ll_read_end:
 // separation of data leads to "relocation truncated to fit: R_68K_PC16 against `.data'"
 
 
-.data
+.data	
 
-
+	.align	2		/* just to be sure */ 
 buffer:		ds.b 256 
 
 msg01:	.ascii "_ll_read_"

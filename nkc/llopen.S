@@ -1,12 +1,15 @@
 	.text
 	.global _ll_init_std,  __ll_seek,  __ll_getpos, __ll_close, __ll_creat, __ll_open
+
+#include "macros.h"
+
 /*************************************************************************
  * _llinit  setup standard files (stdio, stderr)
  *************************************************************************/
 _ll_init_std:
 #if defined(M68008) || defined(M68000)
-	lea output_file,%a0	
-	lea _pstreams,%a1	
+	LEA32A0 output_file	
+	LEA32 _pstreams,%a1	
 #else
 	lea output_file(%pc),%a0	
 	lea _pstreams(%pc),%a1	
@@ -14,7 +17,7 @@ _ll_init_std:
 	move.l %a0,(%a1)+
 	move.l %a0,(%a1)+
 #if defined(M68008) || defined(M68000)
-	lea error_file,%a0
+	LEA32A0 error_file
 #else
 	lea error_file(%pc),%a0
 #endif

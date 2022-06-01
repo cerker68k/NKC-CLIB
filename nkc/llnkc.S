@@ -577,7 +577,7 @@ jd_remove: .global jd_remove
 	moveq #__uppercas, %d7	/* Dateinamen immer in Großbuchstaben */
 	trap #6
 #if defined(M68008) || defined(M68000)
-	lea buffer,%a1   	/* *fcb  <<-- !!*/
+	LEA32 buffer,%a1   	/* *fcb  <<-- !!*/
 #else
 	lea buffer(%pc),%a1   	/* *fcb  <<-- !!*/
 #endif
@@ -585,7 +585,7 @@ jd_remove: .global jd_remove
 	moveq #__fillfcb,%d7
 	trap #6
 #if defined(M68008) || defined(M68000)
-	lea buffer,%a1 	/* *fcb  <<-- !!*/
+	LEA32 buffer,%a1 	/* *fcb  <<-- !!*/
 #else
 	lea buffer(%pc),%a1 	/* *fcb  <<-- !!*/
 #endif
@@ -606,7 +606,7 @@ jd_rename: .global jd_rename
 	moveq #__uppercas, %d7	/* Dateinamen immer in Großbuchstaben */
 	trap #6
 #if defined(M68008) || defined(M68000)
-	lea buffer,%a1   	/* *fcb  */
+	LEA32 buffer,%a1   	/* *fcb  */
 #else
 	lea buffer(%pc),%a1   	/* *fcb  */
 #endif
@@ -618,7 +618,7 @@ jd_rename: .global jd_rename
 	moveq #__uppercas, %d7	/* Dateinamen immer in Großbuchstaben */
 	trap #6
 #if defined(M68008) || defined(M68000)
-	lea buffer,%a1     /* <<--- !! */
+	LEA32 buffer,%a1     /* <<--- !! */
 #else
 	lea buffer(%pc),%a1     /* <<--- !! */
 #endif
@@ -787,7 +787,7 @@ jd_get_laddr: .global jd_get_laddr
 
 #if defined USE_JADOS || defined USE_GP
 .data
-
+.align 2	/* just to be sure that the byte buffer is word aligned */
 buffer:		ds.b 255 	
 msg001:	.ascii "jd_directory_test:" 	
 	.byte 0x0d,0x0a,0x00

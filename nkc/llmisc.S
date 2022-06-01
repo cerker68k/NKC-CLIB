@@ -200,7 +200,7 @@ _ll_ticks:
 
 */
 #if defined(M68008) | defined(M68000)
-	lea ticks,%a0
+	LEA32A0 ticks
 #else
 	lea ticks(%pc),%a0
 #endif
@@ -216,18 +216,18 @@ _ll_ticks:
 
 timerinit:
 #if defined(M68008) | defined(M68000)
-	lea kqstart, %a0		/* clear Key-Queue Vars */
+	LEA32A0 kqstart		/* clear Key-Queue Vars */
 	clr (%a0)
-	lea kqend, %a0
+	LEA32A0 kqend
 	clr (%a0) 
-	lea kqanz, %a0
+	LEA32A0 kqanz
 	clr (%a0)
 
-	lea oldint7c,%a0
+	LEA32A0 oldint7c
         move.l 0x7c, (%a0)       	/* save old int vector */
-	lea oldint74,%a0
+	LEA32A0 oldint74
 	move.l 0x74, (%a0)
-        lea trap1F,%a0
+    LEA32A0 trap1F
 #else
 	lea kqstart(%pc), %a0		/* clear Key-Queue Vars */
 	clr (%a0)
@@ -246,7 +246,7 @@ timerinit:
 	move.l %a0, 0x74
         
 #if defined(M68008) | defined(M68000)
-	lea ticks,%a0
+	LEA32A0 ticks
 #else
 	lea ticks(%pc),%a0
 #endif
@@ -269,13 +269,13 @@ timerclose:
 	move.b #0,(%a0)          	/* stop timer and interrupts */
 	ori #0x0700, %sr		/* Interrupts aus	*/
 #if defined(M68008) | defined(M68000)
-	lea oldint7c,%a0
+	LEA32A0 oldint7c
 #else
 	lea oldint7c(%pc),%a0
 #endif
 	move.l (%a0),0x7c       	/* restore old interrupt */
 #if defined(M68008) | defined(M68000)
-	lea oldint74,%a0
+	LEA32A0 oldint74
 #else
 	lea oldint74(%pc),%a0
 #endif
@@ -292,7 +292,7 @@ trap1F:
     move.b #0b10000001,(%a0)  /* clear ovl bit(6), continue running(0), enable INT(7) */	
 */        
 #if defined(M68008) | defined(M68000)
-    lea ticks,%a0
+    LEA32A0 ticks
 #else
     lea ticks(%pc),%a0
 #endif
@@ -322,7 +322,12 @@ checkkbd:
     /* - SIG senden */
     move.l #21,-(%sp)			/* raise(SIGBREAK); (sollte es raise(SIGINT) sein ?)*/
     /*bsr.l raise Problem mit 68000 (illegal instruction) => dem Compiler überlassen */
+    
+#if defined(M68008) | defined(M68000)
+    jsr raise
+#else
     bsr raise
+#endif
 
     /* muss hier noch ein bra tr1Fend rein oder kommt man hier nie an? */
     /* im Grunde kommt man hier nie an, weil raise(SIGBREAK) das Programm beendet */
@@ -330,9 +335,9 @@ checkkbd:
         
 getkbd:
 #if defined(M68008) | defined(M68000)
-	lea keyqueue, %a0
-	lea kqanz, %a1
-	lea kqend, %a2
+	LEA32A0 keyqueue
+	LEA32 kqanz, %a1
+	LEA32 kqend, %a2
 #else
 	lea keyqueue(%pc), %a0
 	lea kqanz(%pc), %a1
@@ -393,9 +398,9 @@ char keyci(void);
 keyci:	.global keyci
 	movem.l %d1/%d7/%a0-%a2, -(%sp)
 #if defined(M68008) | defined(M68000)
-	lea keyqueue, %a0
-	lea kqanz, %a1
-	lea kqstart, %a2
+	LEA32A0 keyqueue
+	LEA32 kqanz, %a1
+	LEA32 kqstart, %a2
 #else
 	lea keyqueue(%pc), %a0
 	lea kqanz(%pc), %a1
@@ -431,9 +436,9 @@ char _keyci(void);
 _keyci:	.global _keyci
 	movem.l %d1/%d7/%a0-%a2, -(%sp)
 #if defined(M68008) | defined(M68000)
-	lea keyqueue, %a0
-	lea kqanz, %a1
-	lea kqstart, %a2
+	LEA32A0 keyqueue
+	LEA32 kqanz, %a1
+	LEA32 kqstart, %a2
 #else
 	lea keyqueue(%pc), %a0
 	lea kqanz(%pc), %a1
@@ -471,7 +476,7 @@ char _keypressed(void);
 */
 _keypressed:	.global _keypressed	
 #if defined(M68008) | defined(M68000)
-	lea kqanz, %a1	
+	LEA32 kqanz, %a1	
 #else
 	lea kqanz(%pc), %a1
 #endif
@@ -497,7 +502,8 @@ ctrlctxt: 	.ascii " Ctrl-C"
 		.byte 0x0d,0x0a,0x00
 dot: 		.ascii "."
 		.byte 0x00	
-
+	
+		.align 2	      /* just to be sure */
 buffer:   ds.b 256        /* 256B debug buffer */			
 		
 		

@@ -433,13 +433,14 @@ _LEA32A0:
 	.data
 	.global _HEAP,_RAM_TOP,_CMDLINE,_DRIVE, errno
 	
-	
+	.align 2 		/* Muss für 68000 an Wortgrenze */
 errno:		ds.l 1
 _HEAP:		ds.l 1
 _RAM_TOP:	ds.l 1
 
 _OLDSTACK:	ds.l 1
 _DRIVE:		ds.b 1
+	.align 2	 	/* Muss für 68000 an Wortgrenze */
 _CMDLINE:	ds.b 255
 
 
@@ -570,5 +571,6 @@ dbgmsg05:
 	
 #endif
 
+	.align 2	 	/* Muss für 68000 an Wortgrenze */
 buffer:	ds.b 255						
 

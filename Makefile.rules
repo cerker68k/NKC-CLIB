@@ -28,11 +28,11 @@ CONFIG_FS_NKC = 1
 CONFIG_FS_FAT = 1
 
 ############## block devices ...  ###################################################
-CONFIG_BLOCK_DEVICES = 1
+CONFIG_BLOCK_DEVICES = 0
 ############## select block devices: GIDE, SDCard, CRC ... ###############################
-CONFIG_DRV_GIDE = 1
-CONFIG_DRV_SD = 1
-CONFIG_DRV_SD_CRC = 1
+CONFIG_DRV_GIDE = 0
+CONFIG_DRV_SD = 0
+CONFIG_DRV_SD_CRC = 0
 CONFIG_DRV_JD = 0
 
 ############## character devices ... ################################################
@@ -53,9 +53,9 @@ CONFIG_USE_JADOS = 0
 ############# DEBUG configuration #################################################
 # #include <debug.h> in 
 # global switch to turn debugging on/off
-CONFIG_DEBUG = 1
+CONFIG_DEBUG = 0
 # output debug to serial IO (PORT+BAUD+8N1)
-CONFIG_DEBUG_SIO_OUT = 1
+CONFIG_DEBUG_SIO_OUT = 0
 # define port and speed for serial debug output (default: Port 1, 9600 Baud, 8N1)
 CONFIG_DEBUG_SIO_PORT_2 = 0
 CONFIG_DEBUG_SIO_BAUD_115200 = 0
