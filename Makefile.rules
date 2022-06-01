@@ -53,12 +53,12 @@ CONFIG_USE_JADOS = 0
 ############# DEBUG configuration #################################################
 # #include <debug.h> in 
 # global switch to turn debugging on/off
-CONFIG_DEBUG = 0
+CONFIG_DEBUG = 1
 # output debug to serial IO (PORT+BAUD+8N1)
 CONFIG_DEBUG_SIO_OUT = 1
 # define port and speed for serial debug output (default: Port 1, 9600 Baud, 8N1)
 CONFIG_DEBUG_SIO_PORT_2 = 0
-CONFIG_DEBUG_SIO_BAUD_115200 = 1
+CONFIG_DEBUG_SIO_BAUD_115200 = 0
 # ------------------------------
 # disk i/o debug
 CONFIG_DEBUG_DISKIO = 0

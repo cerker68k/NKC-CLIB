@@ -162,8 +162,9 @@ gp_ser1_write_dec_dw: .global gp_ser1_write_dec_dw
 	lea buffer(%pc),%a0
 #endif
 	move.l %a0,-(%sp)
+
 	bsr nkc_ser1_write
-	add.l #4,%sp		/* Stack aufräumen */
+	add.l #4,%sp 		/* Stack aufräumen */
 	rts	
 
 /*
@@ -185,6 +186,7 @@ gp_ser1_write_hex8: .global gp_ser1_write_hex8
 	lea buffer(%pc),%a0
 #endif
 	move.l %a0,-(%sp)
+
 	bsr nkc_ser1_write
 	add.l #4,%sp		/* Stack aufräumen */
 	rts	

@@ -102,32 +102,30 @@ LD2:
 #ifdef CONFIG_DEBUG_MM   
         crlf
         crlf
-        writeln msg24(%pc)	/* Heap starts at ... */
-        lea _HEAP(%pc),%a1
-        move.l (%a1),%d0
-       	prthex8 (%d0)    
+        writeln msg24	/* Heap starts at ... */
+        LEA32A0 _HEAP
+       	prthex8 %a0   
        	crlf
-        writeln msg25(%pc)	/* Stack starts at ... */
-        lea _RAM_TOP(%pc),%a0
-        move.l (%a1),%d0
-       	prthex8 (%d0)
+        writeln msg25 	/* Stack starts at ... */
+        LEA32A0 _HEAP
+       	prthex8 %a0
        	crlf
 #endif       	
        	
         
-#ifdef  CONFIG_DEBUG_SIO_OUT
-       writeln dbgmsg00(%pc)         
+#ifdef CONFIG_DEBUG_SIO_OUT
+       writeln dbgmsg00        
        
 #ifdef CONFIG_DEBUG_SIO_PORT_2
-       writeln dbgmsg03(%pc)  /* port 2 */
+       writeln dbgmsg03  /* port 2 */
 #else
-       writeln dbgmsg02(%pc)  /* port 1 */
+       writeln dbgmsg02  /* port 1 */
 #endif
 
 #ifdef CONFIG_DEBUG_SIO_BAUD_115200        
-       writeln dbgmsg05(%pc)  /* 8N1,115200 baud */
+       writeln dbgmsg05  /* 8N1,115200 baud */
 #else
-       writeln dbgmsg04(%pc)  /* 8N1,9600 baud */
+       writeln dbgmsg04  /* 8N1,9600 baud */
 #endif
        
        
@@ -141,24 +139,24 @@ LD2:
        move.l #0x1e,-(%sp)	/* init serial 1 8N1, 9600 baud, no parity, no IRQ */
 #endif
 
-       bsr.l nkc_init_ser1	/* init serial 1 8N1, 9600 baud, no parity, no IRQ */
-       
+       jsr nkc_init_ser1	/* init serial 1 8N1, 9600 baud, no parity, no IRQ */
+
        crlf
 #endif
 
 
        add.l #8,%sp		/* Stack aufräumen */                                   
        
-       lea dbgmsg01(%pc),%a0
+       LEA32A0 dbgmsg01
        move.l %a0,-(%sp)
-       bsr.l nkc_ser1_write
+       jsr nkc_ser1_write
        add.l #4,%sp
        
-       writeln dbgmsg01(%pc)   
+       writeln dbgmsg01   
 #endif
        	        
 
-	bsr mm_init        	/* init memory management */
+	jsr mm_init        	/* init memory management */
 
 /*	
 ;x
