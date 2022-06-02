@@ -154,8 +154,10 @@ gp_ser1_write_dec_dw: .global gp_ser1_write_dec_dw
 #else
 	lea buffer(%pc),%a0
 #endif
-        moveq #_PRINT8D,%d7
-        trap #1
+	movem.l %a6/%d7,-(%sp)
+    moveq #_PRINT8D,%d7
+    trap #1
+    movem.l (%sp)+,%a6/%d7
 #if defined(M68008) || defined(M68000)
 	LEA32A0 buffer        
 #else
@@ -178,8 +180,10 @@ gp_ser1_write_hex8: .global gp_ser1_write_hex8
 #else
 	lea buffer(%pc),%a0
 #endif
-        moveq #_PRINT8X,%d7
-        trap #1
+	movem.l %a6/%d7,-(%sp)
+    moveq #_PRINT8X,%d7
+    trap #1
+  	movem.l (%sp)+,%a6/%d7  
 #if defined(M68008) || defined(M68000)
 	LEA32A0 buffer        
 #else
@@ -188,6 +192,7 @@ gp_ser1_write_hex8: .global gp_ser1_write_hex8
 	move.l %a0,-(%sp)
 
 	bsr nkc_ser1_write
+
 	add.l #4,%sp		/* Stack aufräumen */
 	rts	
 	
@@ -204,8 +209,10 @@ gp_clrscr: .global gp_clrscr
 unsigned char gp_kbhit(void);
 */	
 gp_kbhit: .global gp_kbhit
+	movem.l %a6/%d7,-(%sp)
 	moveq #_CSTS,%d7
 	trap #1
+	movem.l (%sp)+,%a6/%d7
 	rts
 /*
  void gp_write(char* message)
@@ -300,12 +307,14 @@ gp_write_hex2: .global gp_write_hex2
 #else
 	lea buffer(%pc),%a0
 #endif
-        moveq #_PRINT2X,%d7
-        trap #1
+	movem.l %a6/%d7,-(%sp)
+    moveq #_PRINT2X,%d7
+    trap #1
+	movem.l (%sp)+,%a6/%d7
 #if defined(M68008) || defined(M68000)
 	writeln buffer
 #else
-        writeln buffer(%pc)
+    writeln buffer(%pc)
 #endif
 	rts	
 /*
@@ -314,18 +323,22 @@ gp_write_hex2: .global gp_write_hex2
 */	  	  
 gp_write_hex8: .global gp_write_hex8
 	move.l 4(%sp),%d0
+
 #if defined(M68008) || defined(M68000)
 	LEA32A0 buffer
 #else
 	lea buffer(%pc),%a0
 #endif
-        moveq #_PRINT8X,%d7
-        trap #1
+	movem.l %a6/%d7,-(%sp)
+    moveq #_PRINT8X,%d7
+    trap #1
+    movem.l (%sp)+,%a6/%d7
 #if defined(M68008) || defined(M68000)
 	writeln buffer
 #else
         writeln buffer(%pc)
 #endif
+
 	rts	
 	
 /*
@@ -338,13 +351,16 @@ gp_write_dec_dw: .global gp_write_dec_dw
 #else
 	lea buffer(%pc),%a0
 #endif
-        moveq #_PRINT8D,%d7
-        trap #1
+	movem.l %a6/%d7,-(%sp)
+    moveq #_PRINT8D,%d7
+    trap #1
+    movem.l (%sp)+,%a6/%d7
 #if defined(M68008) || defined(M68000)
 	writeln buffer
 #else
-        writeln buffer(%pc)
+    writeln buffer(%pc)
 #endif
+
 	rts	
 			  
 /*
@@ -361,38 +377,43 @@ gp_getchar: .global gp_getchar
  void gp_putchar(char c)
 */
 gp_putchar: .global gp_putchar
-
 	move.b 7(%sp),%d0	  
 
         beq 3f
 	cmp.b #0x0A,%d0
 	bne 2f
 	move.l #0x0D,%d0
+	movem.l %a6/%d7,-(%sp)
 	moveq #_CO2,%d7
         trap #1
+        
         move.l #0x0A,%d0  
               	
 2:      moveq #_CO2,%d7
         trap #1
         //bra 1b
 3:	  
-	
-	  rts 	
+	movem.l (%sp)+,%a6/%d7
+	rts 	
 
 /*
  void gp_curoff(void)
 */
 gp_curoff: .global gp_curoff
+	movem.l %a6/%d7,-(%sp)
 	moveq #_CUROFF,%d7 /* Cursor ausschalten */
 	trap #1
+	movem.l (%sp)+,%a6/%d7
 	rts
 
 /*
  void gp_curon(void)
 */
 gp_curon: .global gp_curon
+	movem.l %a6/%d7,-(%sp)
 	moveq #_CURON,%d7 /* Cursor einschalten */
 	trap #1
+	movem.l (%sp)+,%a6/%d7
 	rts	
 
 /*
@@ -403,8 +424,10 @@ gp_setflip: .global gp_setflip
 	clr.l %d1
     move.b 7(%sp),%d0   /* Blinkrate für 2-Seiten-Umschaltung */
     move.b 11(%sp),%d1  /* Blinkrate für 4-Seiten-Umschaltung */
+	movem.l %a6/%d7,-(%sp)
 	moveq #_SETFLIP,%d7 /* Fliprate setzen */
 	trap #1
+	movem.l (%sp)+,%a6/%d7
 	rts	
 
 /*
@@ -415,8 +438,10 @@ gp_setpage: .global gp_setpage
 	clr.l %d1
     move.b 7(%sp),%d0   /* writepage */
     move.b 11(%sp),%d1  /* viewpage */
+    movem.l %a6/%d7,-(%sp)
 	moveq #_NEWPAGE,%d7 /* setzen */
 	trap #1
+	movem.l (%sp)+,%a6/%d7
 	rts		
 
 /*

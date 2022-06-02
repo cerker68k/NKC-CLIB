@@ -53,9 +53,9 @@ CONFIG_USE_JADOS = 0
 ############# DEBUG configuration #################################################
 # #include <debug.h> in 
 # global switch to turn debugging on/off
-CONFIG_DEBUG = 0
+CONFIG_DEBUG = 1
 # output debug to serial IO (PORT+BAUD+8N1)
-CONFIG_DEBUG_SIO_OUT = 0
+CONFIG_DEBUG_SIO_OUT = 1
 # define port and speed for serial debug output (default: Port 1, 9600 Baud, 8N1)
 CONFIG_DEBUG_SIO_PORT_2 = 0
 CONFIG_DEBUG_SIO_BAUD_115200 = 0
@@ -84,7 +84,7 @@ CONFIG_DEBUG_DRV_GIDE = 0
 CONFIG_DEBUG_DRV_SD = 0
 CONFIG_DEBUG_DRV_JD = 0
 # Memory Management
-CONFIG_DEBUG_MM = 0
+CONFIG_DEBUG_MM = 1
 
 ############## tell if internal math lib should be used (/math) ############################
 # 0 = no internal, use libgcc routines, 1 = use internal math, needs FPU !

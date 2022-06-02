@@ -45,6 +45,16 @@ void *_ll_malloc(ULONG size)
 		
 	mm_lldbghex(" _ll_malloc: requested block size = 0x",size);
 	
+	/* to prevent issues with unaligned blocks, on 68000 and 68008 size has to be even */
+	/* code will not care if we always round up */
+	#if defined(M68000) || defined(M68008)
+		if (size & 0x00000001)
+		{
+			size = size + 1;
+			mm_lldbghex(" _ll_malloc: rounded up to 0x",size);
+		}
+	#endif
+		
 	while (location != 0)
 	{
 		if((location->free == 1) && location->size >= (size + (ULONG)sizeof(struct block_header))) break; // we found a large enough free memory location 
