@@ -1,23 +1,24 @@
 #include <stdio.h>
 #include <time.h>
 #include <libp.h>
+#include <debug.h>
 
 #include "../nkc/llnkc.h"
 
 int _baseputc(int c, FILE *stream);
 
 int fputc(int c, FILE *stream)
-{		
-	
+{			
 	if (stream->token != FILTOK)
 	{		
 		return EOF;
 	}
-	
+
 	if (!(stream->flags & _F_WRIT)) {		
 		stream->flags |= _F_ERR;
 		return EOF;
 	}
+
 	return _baseputc(c,stream);
 }
 #undef putc

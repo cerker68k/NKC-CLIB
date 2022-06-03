@@ -61,11 +61,13 @@ https://sourceware.org/binutils/docs-2.18/as/Macro.html
 .endm
 
 .macro LEA32 var,reg
+	move.l %a0,-(%sp)		/* A0 retten */
 	move.l #\var,-(%sp)
 	move.l #1f,-(%sp)
 	jsr _LEA32A0
 1:	addq.l #8,%sp
 	movea.l %a0,\reg
+	move.l (%sp)+,%a0		/* A0 wiederherstellen */
 .endm
 
 /* pea kann auch nur mit 16Bit Displacements ! i.e. "pea d16(pc)" */

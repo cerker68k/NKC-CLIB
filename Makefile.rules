@@ -24,8 +24,8 @@ CONFIG_GETOPT=1
 
 ############## use filesystems ? ####################################################
 CONFIG_FS = 1
-CONFIG_FS_NKC = 1
-CONFIG_FS_FAT = 1
+CONFIG_FS_NKC = 0
+CONFIG_FS_FAT = 0
 
 ############## block devices ...  ###################################################
 CONFIG_BLOCK_DEVICES = 0
@@ -53,9 +53,9 @@ CONFIG_USE_JADOS = 0
 ############# DEBUG configuration #################################################
 # #include <debug.h> in 
 # global switch to turn debugging on/off
-CONFIG_DEBUG = 1
+CONFIG_DEBUG = 0
 # output debug to serial IO (PORT+BAUD+8N1)
-CONFIG_DEBUG_SIO_OUT = 1
+CONFIG_DEBUG_SIO_OUT = 0
 # define port and speed for serial debug output (default: Port 1, 9600 Baud, 8N1)
 CONFIG_DEBUG_SIO_PORT_2 = 0
 CONFIG_DEBUG_SIO_BAUD_115200 = 0
@@ -70,7 +70,7 @@ CONFIG_DEBUG_XXPRINTF = 0
 # time debug
 CONFIG_DEBUG_TIME = 0
 # clib io debug
-CONFIG_DEBUG_CLIB_IO=0
+CONFIG_DEBUG_CLIB_IO = 0
 # HighLevel FileSystem
 CONFIG_DEBUG_FS = 0
 # NKC/JADOS FileSystem
@@ -84,12 +84,12 @@ CONFIG_DEBUG_DRV_GIDE = 0
 CONFIG_DEBUG_DRV_SD = 0
 CONFIG_DEBUG_DRV_JD = 0
 # Memory Management
-CONFIG_DEBUG_MM = 1
+CONFIG_DEBUG_MM = 0
 
 ############## tell if internal math lib should be used (/math) ############################
 # 0 = no internal, use libgcc routines, 1 = use internal math, needs FPU !
 # this switch ist not used 
-CONFIG_USE_CLIBS_MATH=0
+CONFIG_USE_CLIBS_MATH = 0
 
 ######## c-compiler ################
 CC=m68k-uclinux-gcc
