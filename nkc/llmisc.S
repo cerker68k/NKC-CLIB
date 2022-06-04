@@ -251,7 +251,8 @@ timerinit:
 	lea ticks(%pc),%a0
 #endif
 	move.b #0x0,(%a0)
-        
+
+#ifdef CONFIG_TIMER_GDPFPGA        
 	lea TIMER1_CTRL.w,%a0        	/* adresse ctrl-reg in a0 	*/
 	lea TIMER1_HI.w,%a1          	/* adresse hi-reg in a1	*/
 	lea TIMER1_LO.w,%a2          	/* adresse lo-reg in a2 */
@@ -261,12 +262,38 @@ timerinit:
 	move.b #0x03,(%a1)        	/* hi-byte */
 	move.b #0xe8,(%a2)        	/* low-byte */
 	move.b #0b10000001,(%a0)  	/* start timer, enable interupt */
+#endif
+
+#ifdef CONFIG_TIMER_SOUND4
+	lea NKC_SOUND4_ADR0,%a0
+	lea NKC_SOUND4_DATA0,%a1
+
+	move.b #0x24,(%a0)		  /* setze Timerfaktor (1024-469)*18µs = 9.99ms */
+	move.b #117,(%a1)		  /* verwendet wird TIMER B der SOUND4 */
+	move.b #0x25,(%a0)
+	move.b #1,(%a1)
+	
+	move.b #0x27,(%a0)
+	move.b #0x2A,(%a1)		  /* Timer B starten, Interrupt freigeben */
+#endif
+	
 	andi #0xf8ff, %sr		/* Interrups freigeben	*/
 	rts
 	
 timerclose:
+#ifdef CONFIG_TIMER_GDPFPGA
 	lea TIMER1_CTRL.w,%a0        	/* adresse ctrl-reg in a0 */
 	move.b #0,(%a0)          	/* stop timer and interrupts */
+#endif
+
+#ifdef CONFIG_TIMER_SOUND4
+	lea NKC_SOUND4_ADR0,%a0
+	lea NKC_SOUND4_DATA0,%a1
+	
+	move.b #0x27,(%a0)
+	move.b #0x20,(%a1)		  /* Timer B beenden + löschen, Interrupt sperren */
+#endif
+	
 	ori #0x0700, %sr		/* Interrupts aus	*/
 #if defined(M68008) | defined(M68000)
 	LEA32A0 oldint7c
@@ -358,9 +385,19 @@ getkbd:
 	
 tr1Fend:
 	
+#ifdef CONFIG_TIMER_GDPFPGA
 	lea TIMER1_CTRL.w,%a0
 	move.b #0b10000001,(%a0)  /* clear ovl bit(6), continue running(0), enable INT(7) */	
-        
+#endif
+
+#ifdef CONFIG_TIMER_SOUND4
+	lea NKC_SOUND4_ADR0,%a0
+	lea NKC_SOUND4_DATA0,%a1
+	
+	move.b #0x27,(%a0)
+	move.b #0x2a,(%a1)		  /* Interrupt bestätigen */
+#endif 
+   
 	move (%sp)+,%sr 
 	movem.l (%sp)+,%a0-%a6/%d0-%d7
 
@@ -396,7 +433,7 @@ _ll_getenv:
 char keyci(void);
 */
 keyci:	.global keyci
-	movem.l %d1/%d7/%a0-%a2, -(%sp)
+	movem.l %d1/%d7/%a0-%a2/%a6, -(%sp)
 #if defined(M68008) | defined(M68000)
 	LEA32A0 keyqueue
 	LEA32 kqanz, %a1
@@ -424,7 +461,7 @@ keyci01:
 	move #_CURSAUS, %d7
 	trap #1
 	
-	movem.l (%sp)+, %d1/%d7/%a0-%a2
+	movem.l (%sp)+, %d1/%d7/%a0-%a2/%a6
 	rts   
 		
 
@@ -434,7 +471,7 @@ Ohne GP !
 char _keyci(void);
 */
 _keyci:	.global _keyci
-	movem.l %d1/%d7/%a0-%a2, -(%sp)
+	movem.l %d1/%d7/%a0-%a2/%a6, -(%sp)
 #if defined(M68008) | defined(M68000)
 	LEA32A0 keyqueue
 	LEA32 kqanz, %a1
@@ -466,7 +503,7 @@ _keyci01:
 	move #_CURSAUS, %d7
 	trap #1
 */	
-	movem.l (%sp)+, %d1/%d7/%a0-%a2
+	movem.l (%sp)+, %d1/%d7/%a0-%a2/%a6
 	rts   
 
 /*

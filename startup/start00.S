@@ -287,10 +287,10 @@ alloc/malloc.c:#pragma rundown memdelete 0
 ;
 */
 __end:
-	bsr closeall
+	jsr closeall
 	//bsr.l memdelete
-	bsr mm_free
-	bsr timerclose
+	jsr mm_free
+	jsr timerclose
 	
 
 	writeln msg17

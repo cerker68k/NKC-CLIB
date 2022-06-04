@@ -40,6 +40,10 @@ CONFIG_CHAR_DEVICES = 1
 ############## select char devices: RTC, Keyboard, Mouse ... ########################
 CONFIG_DRV_RTC = 0
 
+############## timer source #########################################################
+CONFIG_TIMER_GDPFPGA = 0
+CONFIG_TIMER_SOUND4 = 1
+
 ############## use GP / JADOS ? #####################################################
 # use GP (trap 1) calls 
 CONFIG_USE_GP = 1
@@ -167,6 +171,14 @@ CCFLAGS += -DUSE_GP
 endif
 ifeq ($(CONFIG_USE_JADOS),1)
 CCFLAGS += -DUSE_JADOS
+endif
+
+# #### Timer options #############################
+ifeq ($(CONFIG_TIMER_GDPFPGA),1)
+CCFLAGS += -DCONFIG_TIMER_GDPFPGA
+endif
+ifeq ($(CONFIG_TIMER_SOUND4),1)
+CCFLAGS += -DCONFIG_TIMER_SOUND4
 endif
 
 # DEBUG options ####################

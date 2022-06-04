@@ -711,5 +711,13 @@ CSR 	32 		Card Status; information about the card status (See 4.10.1). Mandatory
 
 /* --> gdplib/nkc_gdplib.h */
 
+/* ----------------------------------------------------------------------------- SOUND4 ------------------------------------------------------------------------- */
+
+#define NKC_SOUND4_STATUS	 0xffffff50*cpu
+#define NKC_SOUND4_ADR0		 0xffffff50*cpu
+#define NKC_SOUND4_DATA0	 0xffffff51*cpu
+#define NKC_SOUND4_ADR1		 0xffffff52*cpu
+#define NKC_SOUND4_DATA2	 0xffffff53*cpu
+
 #endif
 

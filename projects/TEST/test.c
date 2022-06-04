@@ -32,13 +32,13 @@ void walk_heap(void);
 int main(int argc, const char* argv[])
 {	
 	
-	//perror(" error message \n");
+	perror(" error message \n");
 	//TIME_TEST();
 	//TIME_TEST2();
 	//CTRLC_TEST();
 	//SIGNAL_TEST();
-	//PRINTF_TEST();	
-  	//MATH_TEST();
+	PRINTF_TEST();	
+  	MATH_TEST();
   		
 	//MEM_TEST_I();
 	//MEM_TEST_II();
@@ -494,7 +494,7 @@ void MEM_TEST_I()
 	mem[2] = malloc(200000); // 0x30D40
 	mem[3] = malloc(10);	 // 0xA
 	mem[4] = malloc(100);	 // 0x64
-	mem[5] = malloc(500000); // 0x7A120
+	// mem[5] = malloc(500000); // 0x7A120
 	
 	walk_heap(); getchar();
 	
