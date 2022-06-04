@@ -274,7 +274,7 @@ timerinit:
 	move.b #1,(%a1)
 	
 	move.b #0x27,(%a0)
-	move.b #0x2A,(%a1)		  /* Timer B starten, Interrupt freigeben */
+	move.b #0x15,(%a1)		  /* Timer B starten, Interrupt freigeben */
 #endif
 	
 	andi #0xf8ff, %sr		/* Interrups freigeben	*/
@@ -291,7 +291,7 @@ timerclose:
 	lea NKC_SOUND4_DATA0,%a1
 	
 	move.b #0x27,(%a0)
-	move.b #0x20,(%a1)		  /* Timer B beenden + löschen, Interrupt sperren */
+	move.b #0x10,(%a1)		  /* Timer B beenden + löschen, Interrupt sperren */
 #endif
 	
 	ori #0x0700, %sr		/* Interrupts aus	*/
@@ -395,7 +395,7 @@ tr1Fend:
 	lea NKC_SOUND4_DATA0,%a1
 	
 	move.b #0x27,(%a0)
-	move.b #0x2a,(%a1)		  /* Interrupt bestätigen */
+	move.b #0x15,(%a1)		  /* Interrupt bestätigen */
 #endif 
    
 	move (%sp)+,%sr 
